@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "@/stores/useUserStore";
 import { API_BASE_URL } from "@/config";
+import { defaultPortfolio, defaultUser } from "@/types";
 
 export default function Navbar() {
   const user = useUserStore((state) => state.user);
@@ -17,6 +18,8 @@ export default function Navbar() {
   const setAccessToken = useUserStore((state) => state.setAccessToken);
   const accessToken = useUserStore((state) => state.accessToken);
   const profilePicUrl = useUserStore((state) => state.profilePicUrl);
+  const setProfilePicUrl = useUserStore((state) => state.setProfilePicUrl);
+  const setPortfolio = useUserStore((state) => state.setPortfolio);
   const navigate = useNavigate();
 
   const logoutUser = async () => {
@@ -32,21 +35,15 @@ export default function Navbar() {
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`);
       }
-
-      // reset access token & user state
-      setAccessToken("");
-      setUser({
-        userId: "",
-        username: "",
-        isAuthenticated: false,
-        email: "",
-      });
-
-      // redirect
-      navigate("/login");
-      return;
     } catch (err) {
       console.error(err);
+    } finally {
+      // always clear local auth/profile state, even if server logout fails
+      setAccessToken("");
+      setUser(defaultUser);
+      setProfilePicUrl("");
+      setPortfolio(defaultPortfolio);
+      navigate("/login");
     }
   };
 
