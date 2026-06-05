@@ -29,15 +29,7 @@ export default function Footer() {
           </Link>
         </div>
 
-        <div className="flex flex-col">
-          <h6 className="font-semibold">Community</h6>
-          <Link className="text-sm" to={"https://x.com/"}>
-            Twitter
-          </Link>
-          <Link to={"https://instagram.com/"} className="text-sm">
-            Instagram
-          </Link>
-        </div>
+      
       </section>
     </footer>
   );
